@@ -29,7 +29,7 @@ unsigned char* LoadBMP(const char* fileName, int* width, int* height, unsigned s
 	@param[in] Blue.
 	@return This will return the data of the image.
 */
-unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, unsigned char green, unsigned char blue);
+unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha);
 
 /*! @breif
     This allows you to save a BMP file. It can be 24 or 32 Bits.
@@ -106,7 +106,7 @@ unsigned char* LoadBMP(const char* fileName, int* width, int* height, unsigned s
     return 0;
 }
 
-unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, unsigned char green, unsigned char blue)
+unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
 {
     unsigned char* data = NULL;
     int loopBits = (bits / 8);
@@ -122,7 +122,7 @@ unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, u
         t++;
         if(loopBits == 4)
         {
-            data[t] = 255;
+            data[t] = alpha;
             t++;
         }
     }
