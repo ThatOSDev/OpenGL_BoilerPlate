@@ -40,7 +40,7 @@ int main(void)
         return -1;
     }
 
-    unsigned char* data = GenerateBMP(512, 512, 32);
+    unsigned char* data = GenerateBMP(512, 512, 32, 255, 0, 0);
     if(data)
     {
         SaveBMP("SaveTest.bmp", data, 512, 512, 32);

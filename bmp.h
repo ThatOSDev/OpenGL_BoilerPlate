@@ -24,9 +24,12 @@ unsigned char* LoadBMP(const char* fileName, int* width, int* height, unsigned s
 	@param[in] The user specifies the Width of the image.
 	@param[in] The user specifies the Height of the image.
 	@param[in] The user specifies the Bit Depth of the image.
+	@param[in] Red.
+    @param[in] Green.
+	@param[in] Blue.
 	@return This will return the data of the image.
 */
-unsigned char* GenerateBMP(int width, int height, int bits);
+unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, unsigned char green, unsigned char blue);
 
 /*! @breif
     This allows you to save a BMP file. It can be 24 or 32 Bits.
@@ -55,8 +58,7 @@ unsigned char* LoadBMP(const char* fileName, int* width, int* height, unsigned s
         {
             unsigned char* tempData = NULL;
             unsigned int image_data_address;
-            int w, h;
-            unsigned short bitDepth;
+            int w, h, bitDepth;
 
             fseek(pFile, 8, SEEK_CUR);
             fread(&image_data_address, 4, 1, pFile);
@@ -104,14 +106,25 @@ unsigned char* LoadBMP(const char* fileName, int* width, int* height, unsigned s
     return 0;
 }
 
-unsigned char* GenerateBMP(int width, int height, int bits)
+unsigned char* GenerateBMP(int width, int height, int bits, unsigned char red, unsigned char green, unsigned char blue)
 {
     unsigned char* data = NULL;
-    int totalBytes = ((width * height) * (bits / 8)) * sizeof(unsigned char);
+    int loopBits = (bits / 8);
+    int totalBytes = ((width * height) * loopBits) * sizeof(unsigned char);
     data = calloc(totalBytes, sizeof(unsigned char));
-    for(int t = 0; t < totalBytes; t++)
+    for(int t = 0; t < totalBytes;)
     {
-        data[t] = 255;
+        data[t] = red;
+        t++;
+        data[t] = green;
+        t++;
+        data[t] = blue;
+        t++;
+        if(loopBits == 4)
+        {
+            data[t] = 255;
+            t++;
+        }
     }
     return data;
 }
